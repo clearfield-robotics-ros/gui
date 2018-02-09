@@ -162,6 +162,19 @@ QGroupBox::title {
     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&amp;lt;--- this is a clickable label!&lt;/p&gt;&lt;p&gt;It emits &amp;quot;signals&amp;quot; used by&lt;/p&gt;&lt;p&gt;Qt &amp;quot;slots.&amp;quot;  It is a custom widget&lt;/p&gt;&lt;p&gt;that inherits from a QLabel.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>720</x>
+     <y>260</y>
+     <width>67</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>TextLabel</string>
+   </property>
+  </widget>
  </widget>
  <customwidgets>
   <customwidget>

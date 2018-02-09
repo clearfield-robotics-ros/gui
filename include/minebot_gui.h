@@ -58,7 +58,9 @@ private:
     //Background map for drawing on
     QPixmap mapBGPixmap;
    
-   
+    ros::Subscriber talker_sub;
+    void talkerClbk(const std_msgs::String &msg);
+
 };
 }
 

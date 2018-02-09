@@ -45,7 +45,7 @@ void MineBotGUI::initPlugin(qt_gui_cpp::PluginContext &context)
 	//Example connection of signal to a slot for ht Qt UI	
     //connect(ui_.btnNorth, SIGNAL(clicked()), this, SLOT(onBtnNorthClicked()));
 
-
+    talker_sub = getNodeHandle().subscribe("talker", 1, &MineBotGUI::talkerClbk, this);
 }
 
 void MineBotGUI::shutdownPlugin()
@@ -54,6 +54,11 @@ void MineBotGUI::shutdownPlugin()
 }
 
 //All your remaining functions to go here...
+
+void MineBotGUI::talkerClbk(const std_msgs::String &msg)
+{
+    // msg->data.c_str();
+}
 
 }
 
