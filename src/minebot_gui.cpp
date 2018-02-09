@@ -48,6 +48,8 @@ void MineBotGUI::initPlugin(qt_gui_cpp::PluginContext &context)
                 ui_.label, SLOT(setText(const QString))   );
 
     talker_sub = getNodeHandle().subscribe("/chatter", 1000, &MineBotGUI::talkerClbk, this);
+    acknowledge_pub = getNodeHandle().advertise<std_msgs::String>("acknowledgement",1000);
+
 //    talker_sub = ros_node_handle.subscribe("chatter", 1000, &MineBotGUI::talkerClbk, this);
     // http://doc.qt.io/qt-5/qobject.html#connect
     // http://wiki.ros.org/rqt/Tutorials/Writing%20a%20C++%20Plugin
@@ -66,6 +68,9 @@ void MineBotGUI::talkerClbk(const std_msgs::String &msg)
     ROS_INFO("here");
     QString str(QString::fromStdString(msg.data)); // converts incoming message to QString type
     emit setText(str); // emit signal
+    std_msgs::String str_send;
+    str_send.data = "received" + msg.data;
+    acknowledge_pub.publish(str_send);
 }
 
 }

@@ -65,6 +65,7 @@ private:
 
 //    ros::NodeHandle ros_node_handle;
     ros::Subscriber talker_sub;
+    ros::Publisher acknowledge_pub;
     void talkerClbk(const std_msgs::String &msg);
 
 };
