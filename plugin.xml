@@ -1,0 +1,12 @@
+<library path="lib/libminebot_gui">
+  <class name="minebot_gui/MineBotGUI" type="minebot_gui::MineBotGUI" base_class_type="rqt_gui_cpp::Plugin">
+    <description>
+      A template for ROS GUIs
+    </description>
+    <qtgui>
+      <label>GUI Template for ROS</label>
+      <icon type="theme">system-help</icon>
+      <statustip>GUI Template</statustip>
+    </qtgui>
+  </class>
+</library>

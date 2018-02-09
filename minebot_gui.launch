@@ -1,0 +1,6 @@
+<launch>
+  <group ns="whatever_you_want">
+    <node name="minebot_gui" type="minebot_gui.py" pkg="minebot_gui" output="screen">
+    </node>
+  </group>
+</launch>
