@@ -38,14 +38,20 @@ void MineBotGUI::initPlugin(qt_gui_cpp::PluginContext &context)
 
     //Expanded GUI initializations...
     //Add some pics to our labels
-    ui_.lblMap->setPixmap(QPixmap(":/cage.png"));
-    mapBGPixmap = QPixmap(":/cage.png");
+//    ui_.lblMap->setPixmap(QPixmap(":/cage.png"));
+//    mapBGPixmap = QPixmap(":/cage.png");
     
 
 	//Example connection of signal to a slot for ht Qt UI	
-    //connect(ui_.btnNorth, SIGNAL(clicked()), this, SLOT(onBtnNorthClicked()));
+//    connect(ui_.btnNorth, SIGNAL(clicked()), this, SLOT(onBtnNorthClicked()));
+    QObject::connect( this, SIGNAL(setText(const QString)),
+                ui_.label, SLOT(setText(const QString))   );
 
-    talker_sub = getNodeHandle().subscribe("talker", 1, &MineBotGUI::talkerClbk, this);
+    talker_sub = getNodeHandle().subscribe("/chatter", 1000, &MineBotGUI::talkerClbk, this);
+//    talker_sub = ros_node_handle.subscribe("chatter", 1000, &MineBotGUI::talkerClbk, this);
+    // http://doc.qt.io/qt-5/qobject.html#connect
+    // http://wiki.ros.org/rqt/Tutorials/Writing%20a%20C++%20Plugin
+    // https://answers.ros.org/question/226493/example-rqt-plugin-in-c-that-uses-signalsslots/
 }
 
 void MineBotGUI::shutdownPlugin()
@@ -57,7 +63,9 @@ void MineBotGUI::shutdownPlugin()
 
 void MineBotGUI::talkerClbk(const std_msgs::String &msg)
 {
-    // msg->data.c_str();
+    ROS_INFO("here");
+    QString str(QString::fromStdString(msg.data)); // converts incoming message to QString type
+    emit setText(str); // emit signal
 }
 
 }

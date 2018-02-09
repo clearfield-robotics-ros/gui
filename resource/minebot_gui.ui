@@ -167,12 +167,12 @@ QGroupBox::title {
     <rect>
      <x>720</x>
      <y>260</y>
-     <width>67</width>
-     <height>17</height>
+     <width>111</width>
+     <height>61</height>
     </rect>
    </property>
    <property name="text">
-    <string>TextLabel</string>
+    <string>Wanna change</string>
    </property>
   </widget>
  </widget>

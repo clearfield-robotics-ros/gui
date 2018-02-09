@@ -21,6 +21,8 @@
 #include <QPainter>
 #include <std_msgs/String.h>
 #include <cmath>
+#include <QString>
+#include <QDebug>
 
 namespace minebot_gui {
 //constants can go here if needed
@@ -36,6 +38,8 @@ public:
 
 Q_SIGNALS:
 
+    void setText(const QString str);
+
 private Q_SLOTS:
 //This is where you name the
 //functions that handle UI
@@ -43,6 +47,7 @@ private Q_SLOTS:
 
 //Example - this is "connected" in the initPlugin function:
 //void onBtnNorthClicked();
+    // https://www.codingfriends.com/index.php/2010/03/04/qt-emit-a-signal/
 
 
 private:
@@ -57,7 +62,8 @@ private:
 
     //Background map for drawing on
     QPixmap mapBGPixmap;
-   
+
+//    ros::NodeHandle ros_node_handle;
     ros::Subscriber talker_sub;
     void talkerClbk(const std_msgs::String &msg);
 
