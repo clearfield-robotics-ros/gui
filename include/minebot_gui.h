@@ -40,6 +40,7 @@ public:
 Q_SIGNALS:
 
     void setText(const QString str);
+    void setStyleSheet(const QString str);
 
 private Q_SLOTS:
 //This is where you name the
@@ -69,7 +70,6 @@ private:
     ros::Subscriber talker_sub;
     ros::Publisher acknowledge_pub;
     void talkerClbk(const std_msgs::String &msg);
-//    void onInitButtonClicked();
 
 };
 }

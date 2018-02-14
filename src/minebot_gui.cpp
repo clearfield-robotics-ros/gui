@@ -46,8 +46,11 @@ void MineBotGUI::initPlugin(qt_gui_cpp::PluginContext &context)
 	//Example connection of signal to a slot for ht Qt UI	
 //    connect(ui_.btnNorth, SIGNAL(clicked()), this, SLOT(onBtnNorthClicked()));
     QObject::connect( this, SIGNAL(setText(const QString)),
-                ui_.label, SLOT(setText(const QString))   );
-
+                ui_.label, SLOT(setText(const QString)));
+    QObject::connect( this, SIGNAL(setStyleSheet(const QString)),
+                ui_.active_md, SLOT(setStyleSheet(const QString)));
+//    QObject::connect( this, SIGNAL(setStyleSheet(const QString)),
+//                ui_.idle_md, SLOT(setStyleSheet(const QString)));
     QObject::connect(ui_.initializeButton, SIGNAL(clicked()),
                      this, SLOT(onInitButtonClicked()));
 
@@ -72,6 +75,7 @@ void MineBotGUI::talkerClbk(const std_msgs::String &msg)
     ROS_INFO("here");
     QString str(QString::fromStdString(msg.data)); // converts incoming message to QString type
     emit setText(str); // emit signal
+    emit setStyleSheet("background-color: red;");
     std_msgs::String str_send;
     str_send.data = "received" + msg.data;
     acknowledge_pub.publish(str_send);
@@ -79,7 +83,7 @@ void MineBotGUI::talkerClbk(const std_msgs::String &msg)
 
 void MineBotGUI::onInitButtonClicked()
 {
-    ROS_INFO("Button clicked");
+    ROS_INFO("Initializing System...");
 }
 
 }
