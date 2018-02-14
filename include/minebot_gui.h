@@ -20,6 +20,7 @@
 #include <QWidget>
 #include <QPainter>
 #include <std_msgs/String.h>
+#include <std_msgs/Int32.h>
 #include <cmath>
 #include <QString>
 #include <QDebug>
@@ -69,7 +70,9 @@ private:
 //    ros::NodeHandle ros_node_handle;
     ros::Subscriber talker_sub;
     ros::Publisher acknowledge_pub;
-    void talkerClbk(const std_msgs::String &msg);
+    ros::Publisher init_pub;
+//    void talkerClbk(const std_msgs::String &msg);
+    void talkerClbk(const std_msgs::Int32 &msg);
 
 };
 }

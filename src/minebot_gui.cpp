@@ -46,16 +46,15 @@ void MineBotGUI::initPlugin(qt_gui_cpp::PluginContext &context)
 	//Example connection of signal to a slot for ht Qt UI	
 //    connect(ui_.btnNorth, SIGNAL(clicked()), this, SLOT(onBtnNorthClicked()));
     QObject::connect( this, SIGNAL(setText(const QString)),
-                ui_.label, SLOT(setText(const QString)));
+                ui_.stop_go, SLOT(setText(const QString)));
     QObject::connect( this, SIGNAL(setStyleSheet(const QString)),
-                ui_.active_md, SLOT(setStyleSheet(const QString)));
-//    QObject::connect( this, SIGNAL(setStyleSheet(const QString)),
-//                ui_.idle_md, SLOT(setStyleSheet(const QString)));
+                ui_.stop_go, SLOT(setStyleSheet(const QString)));
     QObject::connect(ui_.initializeButton, SIGNAL(clicked()),
                      this, SLOT(onInitButtonClicked()));
 
     talker_sub = getNodeHandle().subscribe("/chatter", 1000, &MineBotGUI::talkerClbk, this);
-    acknowledge_pub = getNodeHandle().advertise<std_msgs::String>("acknowledgement",1000);
+//    acknowledge_pub = getNodeHandle().advertise<std_msgs::String>("acknowledgement",1000);
+    init_pub = getNodeHandle().advertise<std_msgs::String>("init",1000);
 
 //    talker_sub = ros_node_handle.subscribe("chatter", 1000, &MineBotGUI::talkerClbk, this);
     // http://doc.qt.io/qt-5/qobject.html#connect
@@ -70,20 +69,34 @@ void MineBotGUI::shutdownPlugin()
 
 //All your remaining functions to go here...
 
-void MineBotGUI::talkerClbk(const std_msgs::String &msg)
+void MineBotGUI::talkerClbk(const std_msgs::Int32 &msg)
 {
-    ROS_INFO("here");
-    QString str(QString::fromStdString(msg.data)); // converts incoming message to QString type
-    emit setText(str); // emit signal
-    emit setStyleSheet("background-color: red;");
-    std_msgs::String str_send;
-    str_send.data = "received" + msg.data;
-    acknowledge_pub.publish(str_send);
+//    ROS_INFO("here");
+//    QString str(QString::fromStdString(msg.data)); // converts incoming message to QString type
+//    emit setText(str); // emit signal
+    switch(msg.data){
+    case 0:
+        emit setText("STOP");
+        emit setStyleSheet("background-color: red;");
+        break;
+    case 1:
+        emit setText("GO");
+        emit setStyleSheet("background-color: green;");
+        break;
+    }
+
+//    emit setStyleSheet("background-color: transparent;");
+//    std_msgs::String str_send;
+//    str_send.data = "received" + msg.data;
+//    acknowledge_pub.publish(str_send);
 }
 
 void MineBotGUI::onInitButtonClicked()
 {
-    ROS_INFO("Initializing System...");
+    ui_.initializeButton->setEnabled(false);
+    std_msgs::String str;
+    str.data = "Initializing System...";
+    init_pub.publish(str);
 }
 
 }

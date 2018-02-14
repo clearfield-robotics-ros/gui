@@ -34,12 +34,17 @@ set(minebot_gui_SRCS
 
 set(minebot_gui_HDRS
   include/minebot_gui.h
+#  include/ui_minebot_gui.h
   include/clicklabel.h
 )
 
 set(minebot_gui_UIS
   resource/minebot_gui.ui
 )
+
+#set(minebot_gui_QMLS
+#  QML/minebot_gui.qml
+#)
 
 set(minebot_gui_INCLUDE_DIRECTORIES
   include
@@ -78,6 +83,7 @@ add_library(
   ${minebot_gui_MOCS}
   ${minebot_gui_UIS_H}
   ${minebot_gui_RESOURCE}
+  ${minebot_gui_QMLS}
 )
 
 
