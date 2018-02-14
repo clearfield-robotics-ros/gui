@@ -7,6 +7,7 @@
 
 
 #include <minebot_gui.h>
+//#include <ui_minebot_gui.h>
 
 
 namespace minebot_gui
@@ -47,6 +48,9 @@ void MineBotGUI::initPlugin(qt_gui_cpp::PluginContext &context)
     QObject::connect( this, SIGNAL(setText(const QString)),
                 ui_.label, SLOT(setText(const QString))   );
 
+    QObject::connect(ui_.initializeButton, SIGNAL(clicked()),
+                     this, SLOT(onInitButtonClicked()));
+
     talker_sub = getNodeHandle().subscribe("/chatter", 1000, &MineBotGUI::talkerClbk, this);
     acknowledge_pub = getNodeHandle().advertise<std_msgs::String>("acknowledgement",1000);
 
@@ -71,6 +75,11 @@ void MineBotGUI::talkerClbk(const std_msgs::String &msg)
     std_msgs::String str_send;
     str_send.data = "received" + msg.data;
     acknowledge_pub.publish(str_send);
+}
+
+void MineBotGUI::onInitButtonClicked()
+{
+    ROS_INFO("Button clicked");
 }
 
 }

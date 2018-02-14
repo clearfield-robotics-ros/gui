@@ -23,6 +23,7 @@
 #include <cmath>
 #include <QString>
 #include <QDebug>
+#include <QMessageBox>
 
 namespace minebot_gui {
 //constants can go here if needed
@@ -46,7 +47,8 @@ private Q_SLOTS:
 //things like button presses, etc.
 
 //Example - this is "connected" in the initPlugin function:
-//void onBtnNorthClicked();
+    void onInitButtonClicked();
+
     // https://www.codingfriends.com/index.php/2010/03/04/qt-emit-a-signal/
 
 
@@ -67,6 +69,7 @@ private:
     ros::Subscriber talker_sub;
     ros::Publisher acknowledge_pub;
     void talkerClbk(const std_msgs::String &msg);
+//    void onInitButtonClicked();
 
 };
 }
