@@ -51,10 +51,14 @@ void MineBotGUI::initPlugin(qt_gui_cpp::PluginContext &context)
                 ui_.stop_go, SLOT(setStyleSheet(const QString)));
     QObject::connect(ui_.initializeButton, SIGNAL(clicked()),
                      this, SLOT(onInitButtonClicked()));
+    QObject::connect(ui_.startButton, SIGNAL(clicked()),
+                     this, SLOT(onStartButtonClicked()));
+    QObject::connect(ui_.endButton, SIGNAL(clicked()),
+                     this, SLOT(onEndButtonClicked()));
 
     talker_sub = getNodeHandle().subscribe("/chatter", 1000, &MineBotGUI::talkerClbk, this);
 //    acknowledge_pub = getNodeHandle().advertise<std_msgs::String>("acknowledgement",1000);
-    init_pub = getNodeHandle().advertise<std_msgs::String>("init",1000);
+    desired_state_pub = getNodeHandle().advertise<std_msgs::Int16>("desired_state",1000);
 
 //    talker_sub = ros_node_handle.subscribe("chatter", 1000, &MineBotGUI::talkerClbk, this);
     // http://doc.qt.io/qt-5/qobject.html#connect
@@ -94,9 +98,25 @@ void MineBotGUI::talkerClbk(const std_msgs::Int32 &msg)
 void MineBotGUI::onInitButtonClicked()
 {
     ui_.initializeButton->setEnabled(false);
-    std_msgs::String str;
-    str.data = "Initializing System...";
-    init_pub.publish(str);
+    std_msgs::Int16 state;
+    state.data = 1;
+    desired_state_pub.publish(state);
+}
+
+void MineBotGUI::onStartButtonClicked()
+{
+    ui_.startButton->setEnabled(false);
+    std_msgs::Int16 state;
+    state.data = 2;
+    desired_state_pub.publish(state);
+}
+
+void MineBotGUI::onEndButtonClicked()
+{
+    ui_.endButton->setEnabled(false);
+    std_msgs::Int16 state;
+    state.data = 3;
+    desired_state_pub.publish(state);
 }
 
 }

@@ -21,6 +21,7 @@
 #include <QPainter>
 #include <std_msgs/String.h>
 #include <std_msgs/Int32.h>
+#include <std_msgs/Int16.h>
 #include <cmath>
 #include <QString>
 #include <QDebug>
@@ -50,6 +51,8 @@ private Q_SLOTS:
 
 //Example - this is "connected" in the initPlugin function:
     void onInitButtonClicked();
+    void onStartButtonClicked();
+    void onEndButtonClicked();
 
     // https://www.codingfriends.com/index.php/2010/03/04/qt-emit-a-signal/
 
@@ -70,7 +73,7 @@ private:
 //    ros::NodeHandle ros_node_handle;
     ros::Subscriber talker_sub;
     ros::Publisher acknowledge_pub;
-    ros::Publisher init_pub;
+    ros::Publisher desired_state_pub;
 //    void talkerClbk(const std_msgs::String &msg);
     void talkerClbk(const std_msgs::Int32 &msg);
 
