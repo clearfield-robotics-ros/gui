@@ -115,7 +115,7 @@ void MineBotGUI::onEndButtonClicked()
 {
     ui_.endButton->setEnabled(false);
     std_msgs::Int16 state;
-    state.data = 3;
+    state.data = 0;
     desired_state_pub.publish(state);
 }
 
