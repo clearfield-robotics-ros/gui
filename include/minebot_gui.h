@@ -41,8 +41,14 @@ public:
 
 Q_SIGNALS:
 
-    void setText(const QString str);
-    void setStyleSheet(const QString str);
+    void setStopGoText(const QString str);
+    void setStopGoColor(const QString str);
+    void setActiveMd(const QString str);
+    void setIdleMd(const QString str);
+    void setActivePr(const QString str);
+    void setIdlePr(const QString str);
+    void setActiveMark(const QString str);
+    void setIdleMark(const QString str);
 
 private Q_SLOTS:
 //This is where you name the
@@ -71,11 +77,11 @@ private:
     QPixmap mapBGPixmap;
 
 //    ros::NodeHandle ros_node_handle;
-    ros::Subscriber talker_sub;
-    ros::Publisher acknowledge_pub;
+    ros::Subscriber current_state_sub;
     ros::Publisher desired_state_pub;
 //    void talkerClbk(const std_msgs::String &msg);
-    void talkerClbk(const std_msgs::Int32 &msg);
+//    void talkerClbk(const std_msgs::Int32 &msg);
+    void currentStateClbk(const std_msgs::Int16 &msg);
 
 };
 }

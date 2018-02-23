@@ -45,10 +45,26 @@ void MineBotGUI::initPlugin(qt_gui_cpp::PluginContext &context)
 
 	//Example connection of signal to a slot for ht Qt UI	
 //    connect(ui_.btnNorth, SIGNAL(clicked()), this, SLOT(onBtnNorthClicked()));
-    QObject::connect( this, SIGNAL(setText(const QString)),
+
+    // Status Reporting Boxes
+    QObject::connect( this, SIGNAL(setStopGoText(const QString)),
                 ui_.stop_go, SLOT(setText(const QString)));
-    QObject::connect( this, SIGNAL(setStyleSheet(const QString)),
+    QObject::connect( this, SIGNAL(setStopGoColor(const QString)),
                 ui_.stop_go, SLOT(setStyleSheet(const QString)));
+    QObject::connect( this, SIGNAL(setActiveMd(const QString)),
+                ui_.active_md, SLOT(setStyleSheet(const QString)));
+    QObject::connect( this, SIGNAL(setIdleMd(const QString)),
+                ui_.idle_md, SLOT(setStyleSheet(const QString)));
+    QObject::connect( this, SIGNAL(setActivePr(const QString)),
+                ui_.active_pr, SLOT(setStyleSheet(const QString)));
+    QObject::connect( this, SIGNAL(setIdlePr(const QString)),
+                ui_.idle_pr, SLOT(setStyleSheet(const QString)));
+    QObject::connect( this, SIGNAL(setActiveMark(const QString)),
+                ui_.active_mark, SLOT(setStyleSheet(const QString)));
+    QObject::connect( this, SIGNAL(setIdleMark(const QString)),
+                ui_.idle_mark, SLOT(setStyleSheet(const QString)));
+
+    // State Transition Command Push Buttons
     QObject::connect(ui_.initializeButton, SIGNAL(clicked()),
                      this, SLOT(onInitButtonClicked()));
     QObject::connect(ui_.startButton, SIGNAL(clicked()),
@@ -56,14 +72,9 @@ void MineBotGUI::initPlugin(qt_gui_cpp::PluginContext &context)
     QObject::connect(ui_.endButton, SIGNAL(clicked()),
                      this, SLOT(onEndButtonClicked()));
 
-    talker_sub = getNodeHandle().subscribe("/chatter", 1000, &MineBotGUI::talkerClbk, this);
-//    acknowledge_pub = getNodeHandle().advertise<std_msgs::String>("acknowledgement",1000);
+    current_state_sub = getNodeHandle().subscribe("/current_state", 1000, &MineBotGUI::currentStateClbk, this);
     desired_state_pub = getNodeHandle().advertise<std_msgs::Int16>("desired_state",1000);
 
-//    talker_sub = ros_node_handle.subscribe("chatter", 1000, &MineBotGUI::talkerClbk, this);
-    // http://doc.qt.io/qt-5/qobject.html#connect
-    // http://wiki.ros.org/rqt/Tutorials/Writing%20a%20C++%20Plugin
-    // https://answers.ros.org/question/226493/example-rqt-plugin-in-c-that-uses-signalsslots/
 }
 
 void MineBotGUI::shutdownPlugin()
@@ -73,26 +84,76 @@ void MineBotGUI::shutdownPlugin()
 
 //All your remaining functions to go here...
 
-void MineBotGUI::talkerClbk(const std_msgs::Int32 &msg)
+QString blue = "background:rgb(0, 170, 255);";
+QString red = "background-color: red;";
+QString orange = "background-color: rgb(255, 107, 2);";
+QString green = "background-color: green;";
+QString transparent = "background:rgba(0,0,0,0);";
+
+void MineBotGUI::currentStateClbk(const std_msgs::Int16 &msg)
 {
-//    ROS_INFO("here");
-//    QString str(QString::fromStdString(msg.data)); // converts incoming message to QString type
-//    emit setText(str); // emit signal
     switch(msg.data){
-    case 0:
-        emit setText("STOP");
-        emit setStyleSheet("background-color: red;");
+    case 0: // Idle
+        emit setStopGoText("STOP");
+        emit setStopGoColor(red);
+        emit setActiveMd(transparent);
+        emit setIdleMd(blue);
+        emit setActivePr(transparent);
+        emit setIdlePr(blue);
+        emit setActiveMark(transparent);
+        emit setIdleMark(blue);
         break;
-    case 1:
-        emit setText("GO");
-        emit setStyleSheet("background-color: green;");
+    case 1: // Calibrating
+        emit setStopGoText("STOP");
+        emit setStopGoColor(red);
+        emit setActiveMd(orange);
+        emit setIdleMd(transparent);
+        emit setActivePr(orange);
+        emit setIdlePr(transparent);
+        emit setActiveMark(orange);
+        emit setIdleMark(transparent);
+        break;
+    case 2: // General Surveying
+        emit setStopGoText("GO");
+        emit setStopGoColor(green);
+        emit setActiveMd(orange);
+        emit setIdleMd(transparent);
+        emit setActivePr(transparent);
+        emit setIdlePr(blue);
+        emit setActiveMark(transparent);
+        emit setIdleMark(blue);
+        break;
+    case 3: // MD Pinpointing
+        emit setStopGoText("STOP");
+        emit setStopGoColor(red);
+        emit setActiveMd(orange);
+        emit setIdleMd(transparent);
+        emit setActivePr(transparent);
+        emit setIdlePr(blue);
+        emit setActiveMark(transparent);
+        emit setIdleMark(blue);
+        break;
+    case 4: // Probing
+        emit setStopGoText("STOP");
+        emit setStopGoColor(red);
+        emit setActiveMd(transparent);
+        emit setIdleMd(blue);
+        emit setActivePr(orange);
+        emit setIdlePr(transparent);
+        emit setActiveMark(transparent);
+        emit setIdleMark(blue);
+        break;
+    case 5: // Marking
+        emit setStopGoText("STOP");
+        emit setStopGoColor(red);
+        emit setActiveMd(transparent);
+        emit setIdleMd(blue);
+        emit setActivePr(transparent);
+        emit setIdlePr(blue);
+        emit setActiveMark(orange);
+        emit setIdleMark(transparent);
         break;
     }
-
-//    emit setStyleSheet("background-color: transparent;");
-//    std_msgs::String str_send;
-//    str_send.data = "received" + msg.data;
-//    acknowledge_pub.publish(str_send);
 }
 
 void MineBotGUI::onInitButtonClicked()
