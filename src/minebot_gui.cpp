@@ -159,6 +159,18 @@ void MineBotGUI::currentStateClbk(const std_msgs::Int16 &msg)
 
 void MineBotGUI::resultsClbk(const minebot_gui::detection_result &msg)
 {
+    id.push_back(msg.id);
+    truth.push_back(msg.truth);
+    radius_truth.push_back(msg.radius_truth);
+    x_truth.push_back(msg.x_truth);
+    y_truth.push_back(msg.y_truth);
+    estimate.push_back(msg.estimate);
+    radius_estimate.push_back(msg.radius_estimate);
+    x_estimate.push_back(msg.x_estimate);
+    y_estimate.push_back(msg.y_estimate);
+    estimate_euclidean_error.push_back(msg.estimate_euclidean_error);
+    warning_delay.push_back(msg.warning_delay);
+    probe_time.push_back(msg.probe_time);
 }
 
 void MineBotGUI::onInitButtonClicked()
