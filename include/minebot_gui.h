@@ -26,7 +26,10 @@
 #include <QString>
 #include <QDebug>
 #include <QMessageBox>
+#include <sstream>
 #include <minebot_gui/detection_result.h>
+#include <boost/lexical_cast.hpp>
+#include <boost/format.hpp>
 
 namespace minebot_gui {
 //constants can go here if needed
@@ -50,6 +53,7 @@ Q_SIGNALS:
     void setIdlePr(const QString str);
     void setActiveMark(const QString str);
     void setIdleMark(const QString str);
+    void setReportText(const QString str);
 
 private Q_SLOTS:
 //This is where you name the
@@ -85,10 +89,14 @@ private:
 //    void talkerClbk(const std_msgs::Int32 &msg);
     void currentStateClbk(const std_msgs::Int16 &msg);
     void resultsClbk(const minebot_gui::detection_result &msg);
-    std::vector<int> id;
+    void formatOutput();
+    std::vector<int> verifyRequirements();
+    std::vector<std::string> id;
     std::vector<bool> truth, estimate;
-    std::vector<float> radius_truth, x_truth, y_truth, radius_estimate, x_estimate, y_estimate, estimate_euclidean_error;
-    std::vector<float> warning_delay, probe_time;
+    std::vector<std::string> radius_truth, x_truth, y_truth, radius_estimate, x_estimate, y_estimate, estimate_euclidean_error;
+    std::vector<std::string> warning_delay, probe_time;
+    float max_dist, max_warning_delay, max_probe_time;
+    int mine_threshold, nonmine_threshold;
 
 };
 }

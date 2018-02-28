@@ -9,7 +9,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>393</width>
+    <width>1000</width>
     <height>600</height>
    </rect>
   </property>
@@ -27,7 +27,7 @@
   </property>
   <property name="maximumSize">
    <size>
-    <width>450</width>
+    <width>1000</width>
     <height>600</height>
    </size>
   </property>
@@ -55,13 +55,13 @@ QGroupBox::title {
     padding: 0 3px 0 3px;
 }</string>
   </property>
-  <widget class="QLabel" name="label">
+  <widget class="QLabel" name="report">
    <property name="geometry">
     <rect>
-     <x>670</x>
-     <y>190</y>
-     <width>111</width>
-     <height>61</height>
+     <x>440</x>
+     <y>160</y>
+     <width>451</width>
+     <height>201</height>
     </rect>
    </property>
    <property name="text">

@@ -1,6 +1,11 @@
 <launch>
   <group ns="minebot_gui">
     <node name="minebot_gui" type="minebot_gui.py" pkg="minebot_gui" output="screen">
+      <param name="max_dist" type="double" value="0.1" />
+      <param name="max_warning_delay" type="double" value="0.25" />
+      <param name="max_probe_time" type="double" value="300.0" />
+      <param name="mine_threshold" type="int" value="4" />
+      <param name="nonmine_threshold" type="int" value="3" />
     </node>
   </group>
 </launch>

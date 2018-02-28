@@ -37,15 +37,6 @@ void MineBotGUI::initPlugin(qt_gui_cpp::PluginContext &context)
     ui_.setupUi(widget_);
     context.addWidget(widget_);
 
-    //Expanded GUI initializations...
-    //Add some pics to our labels
-//    ui_.lblMap->setPixmap(QPixmap(":/cage.png"));
-//    mapBGPixmap = QPixmap(":/cage.png");
-    
-
-	//Example connection of signal to a slot for ht Qt UI	
-//    connect(ui_.btnNorth, SIGNAL(clicked()), this, SLOT(onBtnNorthClicked()));
-
     // Status Reporting Boxes
     QObject::connect( this, SIGNAL(setStopGoText(const QString)),
                 ui_.stop_go, SLOT(setText(const QString)));
@@ -63,6 +54,8 @@ void MineBotGUI::initPlugin(qt_gui_cpp::PluginContext &context)
                 ui_.active_mark, SLOT(setStyleSheet(const QString)));
     QObject::connect( this, SIGNAL(setIdleMark(const QString)),
                 ui_.idle_mark, SLOT(setStyleSheet(const QString)));
+    QObject::connect( this, SIGNAL(setReportText(const QString)),
+                ui_.report, SLOT(setText(const QString)));
 
     // State Transition Command Push Buttons
     QObject::connect(ui_.initializeButton, SIGNAL(clicked()),
@@ -75,6 +68,12 @@ void MineBotGUI::initPlugin(qt_gui_cpp::PluginContext &context)
     current_state_sub = getNodeHandle().subscribe("/current_state", 1000, &MineBotGUI::currentStateClbk, this);
     report_sub = getNodeHandle().subscribe("/results", 1000, &MineBotGUI::resultsClbk, this);
     desired_state_pub = getNodeHandle().advertise<std_msgs::Int16>("desired_state",1000);
+
+    getNodeHandle().getParam("/minebot_gui/minebot_gui/max_dist",max_dist);
+    getNodeHandle().getParam("/minebot_gui/minebot_gui/max_warning_delay",max_warning_delay);
+    getNodeHandle().getParam("/minebot_gui/minebot_gui/max_probe_time",max_probe_time);
+    getNodeHandle().getParam("/minebot_gui/minebot_gui/mine_threshold",mine_threshold);
+    getNodeHandle().getParam("/minebot_gui/minebot_gui/nonmine_threshold",nonmine_threshold);
 
 }
 
@@ -159,18 +158,53 @@ void MineBotGUI::currentStateClbk(const std_msgs::Int16 &msg)
 
 void MineBotGUI::resultsClbk(const minebot_gui::detection_result &msg)
 {
-    id.push_back(msg.id);
+    id.push_back(boost::lexical_cast<std::string>(msg.id));
     truth.push_back(msg.truth);
-    radius_truth.push_back(msg.radius_truth);
-    x_truth.push_back(msg.x_truth);
-    y_truth.push_back(msg.y_truth);
+    radius_truth.push_back(boost::lexical_cast<std::string>(boost::format("%.2f") % msg.radius_truth));
+    x_truth.push_back(boost::lexical_cast<std::string>(boost::format("%.2f") % msg.x_truth));
+    y_truth.push_back(boost::lexical_cast<std::string>(boost::format("%.2f") % msg.y_truth));
     estimate.push_back(msg.estimate);
-    radius_estimate.push_back(msg.radius_estimate);
-    x_estimate.push_back(msg.x_estimate);
-    y_estimate.push_back(msg.y_estimate);
-    estimate_euclidean_error.push_back(msg.estimate_euclidean_error);
-    warning_delay.push_back(msg.warning_delay);
-    probe_time.push_back(msg.probe_time);
+    radius_estimate.push_back(boost::lexical_cast<std::string>(boost::format("%.2f") % msg.radius_estimate));
+    x_estimate.push_back(boost::lexical_cast<std::string>(boost::format("%.2f") % msg.x_estimate));
+    y_estimate.push_back(boost::lexical_cast<std::string>(boost::format("%.2f") % msg.y_estimate));
+    estimate_euclidean_error.push_back(boost::lexical_cast<std::string>(boost::format("%.2f") % msg.estimate_euclidean_error));
+    warning_delay.push_back(boost::lexical_cast<std::string>(boost::format("%.2f") % msg.warning_delay));
+    probe_time.push_back(boost::lexical_cast<std::string>(boost::format("%.2f") % msg.probe_time));
+}
+
+std::vector<int> MineBotGUI::verifyRequirements()
+{
+    int count_mine_correct = 0;
+    int count_nonmine_correct = 0;
+    for (int i = 0; i<id.size(); i++){
+        if (truth.at(i)==estimate.at(i)){ // if the target was correctly identified
+            switch(truth.at(i)){
+            case 0: // nonmine correctly identified as a nonmine
+                count_nonmine_correct++;
+                break;
+            case 1: // mine correctly identified as a mine
+                count_mine_correct++;
+                break;
+            }
+        }
+    }
+    std::vector<int> mine_count;
+    mine_count.push_back(count_mine_correct);
+    mine_count.push_back(count_nonmine_correct);
+    return mine_count;
+}
+
+void MineBotGUI::formatOutput()
+{
+    std::string output; // std::string or QString
+
+    for (int i = 0; i<id.size(); i++){
+        output = id.at(i) + radius_truth.at(i) + "\t" + x_truth.at(i);
+//        std::string truth = std::to_string(id.at(i));
+    //        ROS_INFO(output);
+    }
+    QString qstr = QString::fromStdString(output);
+    emit setReportText(qstr);
 }
 
 void MineBotGUI::onInitButtonClicked()
@@ -195,6 +229,9 @@ void MineBotGUI::onEndButtonClicked()
     std_msgs::Int16 state;
     state.data = 0;
     desired_state_pub.publish(state);
+    if (id.size()>0){
+        formatOutput();
+    }
 }
 
 }
