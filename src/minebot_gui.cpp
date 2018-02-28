@@ -73,6 +73,7 @@ void MineBotGUI::initPlugin(qt_gui_cpp::PluginContext &context)
                      this, SLOT(onEndButtonClicked()));
 
     current_state_sub = getNodeHandle().subscribe("/current_state", 1000, &MineBotGUI::currentStateClbk, this);
+    report_sub = getNodeHandle().subscribe("/results", 1000, &MineBotGUI::resultsClbk, this);
     desired_state_pub = getNodeHandle().advertise<std_msgs::Int16>("desired_state",1000);
 
 }
@@ -154,6 +155,10 @@ void MineBotGUI::currentStateClbk(const std_msgs::Int16 &msg)
         emit setIdleMark(transparent);
         break;
     }
+}
+
+void MineBotGUI::resultsClbk(const minebot_gui::detection_result &msg)
+{
 }
 
 void MineBotGUI::onInitButtonClicked()

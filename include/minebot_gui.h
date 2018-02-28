@@ -26,6 +26,7 @@
 #include <QString>
 #include <QDebug>
 #include <QMessageBox>
+#include <minebot_gui/detection_result.h>
 
 namespace minebot_gui {
 //constants can go here if needed
@@ -78,10 +79,12 @@ private:
 
 //    ros::NodeHandle ros_node_handle;
     ros::Subscriber current_state_sub;
+    ros::Subscriber report_sub;
     ros::Publisher desired_state_pub;
 //    void talkerClbk(const std_msgs::String &msg);
 //    void talkerClbk(const std_msgs::Int32 &msg);
     void currentStateClbk(const std_msgs::Int16 &msg);
+    void resultsClbk(const minebot_gui::detection_result &msg);
 
 };
 }

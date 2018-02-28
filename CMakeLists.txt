@@ -7,7 +7,7 @@ else()
   set(USE_QT5 false)
 endif()
 
-find_package(catkin REQUIRED COMPONENTS roscpp rqt_gui rqt_gui_cpp image_transport cv_bridge std_msgs)
+find_package(catkin REQUIRED COMPONENTS roscpp rqt_gui rqt_gui_cpp image_transport cv_bridge std_msgs message_generation)
 find_package(OpenCV REQUIRED)
 
 
@@ -51,11 +51,8 @@ set(minebot_gui_INCLUDE_DIRECTORIES
   ${CMAKE_CURRENT_BINARY_DIR}
 )
 
-catkin_package(
-  INCLUDE_DIRS ${minebot_gui_INCLUDE_DIRECTORIES}
-  LIBRARIES ${PROJECT_NAME}
-  CATKIN_DEPENDS roscpp rqt_gui rqt_gui_cpp  std_msgs
-)
+
+
 
 if(${USE_QT5})
   qt5_wrap_cpp(minebot_gui_MOCS ${minebot_gui_HDRS})
@@ -106,6 +103,12 @@ endif()
 
 add_dependencies(${PROJECT_NAME} ${catkin_EXPORTED_TARGETS})
 
+add_message_files(DIRECTORY msg
+                  FILES
+                  detection_result.msg)
+
+generate_messages(DEPENDENCIES std_msgs)
+
 find_package(class_loader)
 class_loader_hide_library_symbols(${PROJECT_NAME}) 
 
@@ -124,3 +127,11 @@ set_target_properties(
     PROPERTIES
     COMPILE_FLAGS
       "-std=c++11")
+
+catkin_package(
+  INCLUDE_DIRS ${minebot_gui_INCLUDE_DIRECTORIES}
+  LIBRARIES ${PROJECT_NAME}
+  CATKIN_DEPENDS roscpp rqt_gui rqt_gui_cpp  std_msgs message_runtime
+)
+
+# http://docs.ros.org/jade/api/catkin/html/howto/format1/building_msgs.html
