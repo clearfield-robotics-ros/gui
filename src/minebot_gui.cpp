@@ -69,6 +69,7 @@ void MineBotGUI::initPlugin(qt_gui_cpp::PluginContext &context)
     report_sub = getNodeHandle().subscribe("/results", 1000, &MineBotGUI::resultsClbk, this);
     desired_state_pub = getNodeHandle().advertise<std_msgs::Int16>("desired_state",1000);
 
+    // read parameters from launch file
     getNodeHandle().getParam("/minebot_gui/minebot_gui/max_dist",max_dist);
     getNodeHandle().getParam("/minebot_gui/minebot_gui/max_warning_delay",max_warning_delay);
     getNodeHandle().getParam("/minebot_gui/minebot_gui/max_probe_time",max_probe_time);
@@ -158,21 +159,33 @@ void MineBotGUI::currentStateClbk(const std_msgs::Int16 &msg)
 
 void MineBotGUI::resultsClbk(const minebot_gui::detection_result &msg)
 {
-    id.push_back(boost::lexical_cast<std::string>(msg.id));
+//    id.push_back(boost::lexical_cast<std::string>(msg.id));
+//    truth.push_back(msg.truth);
+//    radius_truth.push_back(boost::lexical_cast<std::string>(boost::format("%.2f") % msg.radius_truth));
+//    x_truth.push_back(boost::lexical_cast<std::string>(boost::format("%.2f") % msg.x_truth));
+//    y_truth.push_back(boost::lexical_cast<std::string>(boost::format("%.2f") % msg.y_truth));
+//    estimate.push_back(msg.estimate);
+//    radius_estimate.push_back(boost::lexical_cast<std::string>(boost::format("%.2f") % msg.radius_estimate));
+//    x_estimate.push_back(boost::lexical_cast<std::string>(boost::format("%.2f") % msg.x_estimate));
+//    y_estimate.push_back(boost::lexical_cast<std::string>(boost::format("%.2f") % msg.y_estimate));
+//    estimate_euclidean_error.push_back(boost::lexical_cast<std::string>(boost::format("%.2f") % msg.estimate_euclidean_error));
+//    warning_delay.push_back(boost::lexical_cast<std::string>(boost::format("%.2f") % msg.warning_delay));
+//    probe_time.push_back(boost::lexical_cast<std::string>(boost::format("%.2f") % msg.probe_time));
+    id.push_back(msg.id);
     truth.push_back(msg.truth);
-    radius_truth.push_back(boost::lexical_cast<std::string>(boost::format("%.2f") % msg.radius_truth));
-    x_truth.push_back(boost::lexical_cast<std::string>(boost::format("%.2f") % msg.x_truth));
-    y_truth.push_back(boost::lexical_cast<std::string>(boost::format("%.2f") % msg.y_truth));
+    radius_truth.push_back(msg.radius_truth);
+    x_truth.push_back(msg.x_truth);
+    y_truth.push_back(msg.y_truth);
     estimate.push_back(msg.estimate);
-    radius_estimate.push_back(boost::lexical_cast<std::string>(boost::format("%.2f") % msg.radius_estimate));
-    x_estimate.push_back(boost::lexical_cast<std::string>(boost::format("%.2f") % msg.x_estimate));
-    y_estimate.push_back(boost::lexical_cast<std::string>(boost::format("%.2f") % msg.y_estimate));
-    estimate_euclidean_error.push_back(boost::lexical_cast<std::string>(boost::format("%.2f") % msg.estimate_euclidean_error));
-    warning_delay.push_back(boost::lexical_cast<std::string>(boost::format("%.2f") % msg.warning_delay));
-    probe_time.push_back(boost::lexical_cast<std::string>(boost::format("%.2f") % msg.probe_time));
+    radius_estimate.push_back(msg.radius_estimate);
+    x_estimate.push_back(msg.x_estimate);
+    y_estimate.push_back(msg.y_estimate);
+    estimate_euclidean_error.push_back(msg.estimate_euclidean_error);
+    warning_delay.push_back(msg.warning_delay);
+    probe_time.push_back(msg.probe_time);
 }
 
-std::vector<int> MineBotGUI::verifyRequirements()
+std::vector<int> MineBotGUI::mineCount()
 {
     int count_mine_correct = 0;
     int count_nonmine_correct = 0;
@@ -194,17 +207,33 @@ std::vector<int> MineBotGUI::verifyRequirements()
     return mine_count;
 }
 
+std::vector<bool> MineBotGUI::verifyUnderLimit(const std::vector<float> &data, const float &limit)
+{
+    std::vector<bool> requirement_met;
+    for (int i = 0; i<data.size(); i++){
+        if (data.at(i)<=limit){
+            requirement_met.push_back(1);
+        }
+        else {
+            requirement_met.push_back(0);
+        }
+    }
+    return requirement_met;
+}
+
 void MineBotGUI::formatOutput()
 {
-    std::string output; // std::string or QString
-
-    for (int i = 0; i<id.size(); i++){
-        output = id.at(i) + radius_truth.at(i) + "\t" + x_truth.at(i);
-//        std::string truth = std::to_string(id.at(i));
-    //        ROS_INFO(output);
-    }
-    QString qstr = QString::fromStdString(output);
-    emit setReportText(qstr);
+//    std::string output; // std::string or QString
+//    std::vector<bool> distance_met = verifyUnderLimit(estimate_euclidean_error, max_dist);
+//    std::vector<bool> warning_delay_met = verifyUnderLimit(probe_time, max_probe_time);
+//    std::vector<bool> probe_time_met = verifyUnderLimit(warning_delay, max_warning_delay);
+//    for (int i = 0; i<id.size(); i++){
+//        output = id.at(i) + radius_truth.at(i) + "\t" + x_truth.at(i);
+//////        std::string truth = std::to_string(id.at(i));
+////    //        ROS_INFO(output);
+//    }
+//    QString qstr = QString::fromStdString(output);
+//    emit setReportText(qstr);
 }
 
 void MineBotGUI::onInitButtonClicked()
