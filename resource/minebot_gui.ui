@@ -9,7 +9,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1000</width>
+    <width>401</width>
     <height>600</height>
    </rect>
   </property>
@@ -55,19 +55,6 @@ QGroupBox::title {
     padding: 0 3px 0 3px;
 }</string>
   </property>
-  <widget class="QLabel" name="report">
-   <property name="geometry">
-    <rect>
-     <x>440</x>
-     <y>160</y>
-     <width>451</width>
-     <height>201</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Wanna change</string>
-   </property>
-  </widget>
   <widget class="QWidget" name="verticalLayoutWidget">
    <property name="geometry">
     <rect>
@@ -505,7 +492,9 @@ color: rgb(255, 255, 255);</string>
         <property name="font">
          <font>
           <family>Ubuntu Mono</family>
-          <pointsize>27</pointsize>
+          <pointsize>20</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
          </font>
         </property>
         <property name="text">
@@ -545,7 +534,9 @@ color: rgb(255, 255, 255);</string>
         <property name="font">
          <font>
           <family>Ubuntu Mono</family>
-          <pointsize>27</pointsize>
+          <pointsize>20</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
          </font>
         </property>
         <property name="text">
@@ -554,7 +545,7 @@ color: rgb(255, 255, 255);</string>
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="endButton">
+       <widget class="QPushButton" name="ResumeButton">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
           <horstretch>0</horstretch>
@@ -576,11 +567,13 @@ color: rgb(255, 255, 255);</string>
         <property name="font">
          <font>
           <family>Ubuntu Mono</family>
-          <pointsize>27</pointsize>
+          <pointsize>18</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
          </font>
         </property>
         <property name="text">
-         <string>End</string>
+         <string>Resume</string>
         </property>
        </widget>
       </item>

@@ -53,7 +53,7 @@ Q_SIGNALS:
     void setIdlePr(const QString str);
     void setActiveMark(const QString str);
     void setIdleMark(const QString str);
-    void setReportText(const QString str);
+//    void setReportText(const QString str);
 
 private Q_SLOTS:
 //This is where you name the
@@ -63,7 +63,7 @@ private Q_SLOTS:
 //Example - this is "connected" in the initPlugin function:
     void onInitButtonClicked();
     void onStartButtonClicked();
-    void onEndButtonClicked();
+    void onResumeButtonClicked();
 
     // https://www.codingfriends.com/index.php/2010/03/04/qt-emit-a-signal/
 

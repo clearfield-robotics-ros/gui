@@ -54,16 +54,16 @@ void MineBotGUI::initPlugin(qt_gui_cpp::PluginContext &context)
                 ui_.active_mark, SLOT(setStyleSheet(const QString)));
     QObject::connect( this, SIGNAL(setIdleMark(const QString)),
                 ui_.idle_mark, SLOT(setStyleSheet(const QString)));
-    QObject::connect( this, SIGNAL(setReportText(const QString)),
-                ui_.report, SLOT(setText(const QString)));
+//    QObject::connect( this, SIGNAL(setReportText(const QString)),
+//                ui_.report, SLOT(setText(const QString)));
 
     // State Transition Command Push Buttons
     QObject::connect(ui_.initializeButton, SIGNAL(clicked()),
                      this, SLOT(onInitButtonClicked()));
     QObject::connect(ui_.startButton, SIGNAL(clicked()),
                      this, SLOT(onStartButtonClicked()));
-    QObject::connect(ui_.endButton, SIGNAL(clicked()),
-                     this, SLOT(onEndButtonClicked()));
+    QObject::connect(ui_.resumeButton, SIGNAL(clicked()),
+                     this, SLOT(onResumeButtonClicked()));
 
     current_state_sub = getNodeHandle().subscribe("/current_state", 1000, &MineBotGUI::currentStateClbk, this);
     report_sub = getNodeHandle().subscribe("/results", 1000, &MineBotGUI::resultsClbk, this);
@@ -123,6 +123,7 @@ void MineBotGUI::currentStateClbk(const std_msgs::Int16 &msg)
         emit setIdlePr(blue);
         emit setActiveMark(transparent);
         emit setIdleMark(blue);
+        ui_.resumeButton->setEnabled(false);
         break;
     case 3: // MD Pinpointing
         emit setStopGoText("STOP");
@@ -153,6 +154,7 @@ void MineBotGUI::currentStateClbk(const std_msgs::Int16 &msg)
         emit setIdlePr(blue);
         emit setActiveMark(orange);
         emit setIdleMark(transparent);
+        ui_.resumeButton->setEnabled(true);
         break;
     }
 }
@@ -252,15 +254,15 @@ void MineBotGUI::onStartButtonClicked()
     desired_state_pub.publish(state);
 }
 
-void MineBotGUI::onEndButtonClicked()
+void MineBotGUI::onResumeButtonClicked()
 {
-    ui_.endButton->setEnabled(false);
+//    ui_.endButton->setEnabled(false);
     std_msgs::Int16 state;
-    state.data = 0;
+    state.data = 2;
     desired_state_pub.publish(state);
-    if (id.size()>0){
-        formatOutput();
-    }
+//    if (id.size()>0){
+//        formatOutput();
+//    }
 }
 
 }
