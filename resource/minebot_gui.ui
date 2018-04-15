@@ -9,26 +9,26 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>401</width>
-    <height>600</height>
+    <width>400</width>
+    <height>500</height>
    </rect>
   </property>
   <property name="sizePolicy">
-   <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
   </property>
   <property name="minimumSize">
    <size>
-    <width>3</width>
-    <height>600</height>
+    <width>400</width>
+    <height>500</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>1000</width>
-    <height>600</height>
+    <width>500</width>
+    <height>500</height>
    </size>
   </property>
   <property name="font">
@@ -59,9 +59,9 @@ QGroupBox::title {
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>10</y>
+     <y>0</y>
      <width>374</width>
-     <height>556</height>
+     <height>501</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -492,7 +492,7 @@ color: rgb(255, 255, 255);</string>
         <property name="font">
          <font>
           <family>Ubuntu Mono</family>
-          <pointsize>20</pointsize>
+          <pointsize>22</pointsize>
           <weight>75</weight>
           <bold>true</bold>
          </font>
@@ -534,7 +534,7 @@ color: rgb(255, 255, 255);</string>
         <property name="font">
          <font>
           <family>Ubuntu Mono</family>
-          <pointsize>20</pointsize>
+          <pointsize>22</pointsize>
           <weight>75</weight>
           <bold>true</bold>
          </font>
@@ -567,7 +567,7 @@ color: rgb(255, 255, 255);</string>
         <property name="font">
          <font>
           <family>Ubuntu Mono</family>
-          <pointsize>18</pointsize>
+          <pointsize>22</pointsize>
           <weight>75</weight>
           <bold>true</bold>
          </font>
