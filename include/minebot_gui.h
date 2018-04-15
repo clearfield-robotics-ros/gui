@@ -83,22 +83,22 @@ private:
 
 //    ros::NodeHandle ros_node_handle;
     ros::Subscriber current_state_sub;
-    ros::Subscriber report_sub;
+//    ros::Subscriber report_sub;
     ros::Publisher desired_state_pub;
 //    void talkerClbk(const std_msgs::String &msg);
 //    void talkerClbk(const std_msgs::Int32 &msg);
     void currentStateClbk(const std_msgs::Int16 &msg);
-    void resultsClbk(const minebot_gui::detection_result &msg);
-    void formatOutput();
-    std::vector<int> mineCount(); // first entry: correct mines. second entry: correct nonmines
-    std::vector<bool> verifyUnderLimit(const std::vector<float> &data, const float &limit);
+//    void resultsClbk(const minebot_gui::detection_result &msg);
+//    void formatOutput();
+//    std::vector<int> mineCount(); // first entry: correct mines. second entry: correct nonmines
+//    std::vector<bool> verifyUnderLimit(const std::vector<float> &data, const float &limit);
 //    std::vector<std::string> id;
-    std::vector<int> id;
-    std::vector<bool> truth, estimate;
-    std::vector<float> radius_truth, x_truth, y_truth, radius_estimate, x_estimate, y_estimate, estimate_euclidean_error;
-    std::vector<float> warning_delay, probe_time;
-    float max_dist, max_warning_delay, max_probe_time;
-    int mine_threshold, nonmine_threshold;
+//    std::vector<int> id;
+//    std::vector<bool> truth, estimate;
+//    std::vector<float> radius_truth, x_truth, y_truth, radius_estimate, x_estimate, y_estimate, estimate_euclidean_error;
+//    std::vector<float> warning_delay, probe_time;
+//    float max_dist, max_warning_delay, max_probe_time;
+//    int mine_threshold, nonmine_threshold;
 
 };
 }
