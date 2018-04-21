@@ -27,7 +27,7 @@
 #include <QDebug>
 #include <QMessageBox>
 #include <sstream>
-#include <minebot_gui/detection_result.h>
+//#include <minebot_gui/detection_result.h>
 #include <boost/lexical_cast.hpp>
 #include <boost/format.hpp>
 
