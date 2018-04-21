@@ -62,8 +62,8 @@ void MineBotGUI::initPlugin(qt_gui_cpp::PluginContext &context)
                      this, SLOT(onInitButtonClicked()));
     QObject::connect(ui_.startButton, SIGNAL(clicked()),
                      this, SLOT(onStartButtonClicked()));
-    QObject::connect(ui_.resumeButton, SIGNAL(clicked()),
-                     this, SLOT(onResumeButtonClicked()));
+    QObject::connect(ui_.endButton, SIGNAL(clicked()),
+                     this, SLOT(onEndButtonClicked()));
 
     current_state_sub = getNodeHandle().subscribe("/current_state", 1000, &MineBotGUI::currentStateClbk, this);
 //    report_sub = getNodeHandle().subscribe("/results", 1000, &MineBotGUI::resultsClbk, this);
@@ -103,6 +103,7 @@ void MineBotGUI::currentStateClbk(const std_msgs::Int16 &msg)
         emit setIdlePr(blue);
         emit setActiveMark(transparent);
         emit setIdleMark(blue);
+        ui_.startButton->setEnabled(true);
         break;
     case 1: // Calibrating
         emit setStopGoText("STOP");
@@ -123,7 +124,7 @@ void MineBotGUI::currentStateClbk(const std_msgs::Int16 &msg)
         emit setIdlePr(blue);
         emit setActiveMark(transparent);
         emit setIdleMark(blue);
-        ui_.resumeButton->setEnabled(false);
+//        ui_.endButton->setEnabled(false);
         break;
     case 3: // MD Pinpointing
         emit setStopGoText("STOP");
@@ -154,7 +155,7 @@ void MineBotGUI::currentStateClbk(const std_msgs::Int16 &msg)
         emit setIdlePr(blue);
         emit setActiveMark(orange);
         emit setIdleMark(transparent);
-        ui_.resumeButton->setEnabled(true);
+//        ui_.resumeButton->setEnabled(true);
         break;
     }
 }
@@ -254,7 +255,7 @@ void MineBotGUI::onStartButtonClicked()
     desired_state_pub.publish(state);
 }
 
-void MineBotGUI::onResumeButtonClicked()
+void MineBotGUI::onEndButtonClicked()
 {
 //    ui_.endButton->setEnabled(false);
     std_msgs::Int16 state;

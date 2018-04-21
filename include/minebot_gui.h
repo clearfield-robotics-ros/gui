@@ -63,7 +63,7 @@ private Q_SLOTS:
 //Example - this is "connected" in the initPlugin function:
     void onInitButtonClicked();
     void onStartButtonClicked();
-    void onResumeButtonClicked();
+    void onEndButtonClicked();
 
     // https://www.codingfriends.com/index.php/2010/03/04/qt-emit-a-signal/
 

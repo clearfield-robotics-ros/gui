@@ -545,7 +545,7 @@ color: rgb(255, 255, 255);</string>
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="resumeButton">
+       <widget class="QPushButton" name="endButton">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
           <horstretch>0</horstretch>
@@ -573,7 +573,7 @@ color: rgb(255, 255, 255);</string>
          </font>
         </property>
         <property name="text">
-         <string>Resume</string>
+         <string>End</string>
         </property>
        </widget>
       </item>
